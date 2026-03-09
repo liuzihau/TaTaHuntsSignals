@@ -1,8 +1,12 @@
-# TaTaHuntsSignals (MVP)
+# TaTaHuntsSignals
 
-![Tata](./assets/tata.png)
+<p align="center">
+  <img src="./assets/tata.png" alt="TaTaHuntsSignals mascot" width="300" />
+</p>
 
-Portfolio-ready side project MVP built with **LangGraph + lightweight local RAG** to generate explainable single-ticker research reports.
+<p align="center">
+  An agentic quant research copilot built with <strong>LangGraph + lightweight local RAG</strong> to generate explainable single-ticker research reports.
+</p>
 
 ## What It Does
 - Accepts a US stock/ETF ticker input (e.g., `NVDA`, `AAPL`, `SPY`)

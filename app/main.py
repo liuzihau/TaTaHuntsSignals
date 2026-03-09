@@ -3,8 +3,15 @@
 from __future__ import annotations
 
 import json
+import sys
+from pathlib import Path
 
 import streamlit as st
+
+# Ensure project-root imports work when Streamlit runs `app/main.py`.
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 from app.service import run_analysis
 from utils.config import get_settings
@@ -22,13 +29,27 @@ with st.sidebar:
 
 col_a, col_b = st.columns([3, 1])
 with col_a:
-    ticker = st.text_input("Ticker", value=settings.default_ticker, placeholder="NVDA")
+    user_input = st.text_area(
+        "What would you like to know?",
+        value=settings.default_ticker,
+        placeholder="e.g., 'Analyze NVDA for Q1' or just 'TSLA'",
+        height=80,
+    )
 with col_b:
     run = st.button("Run Analysis", use_container_width=True)
 
 if run:
     with st.spinner("Running LangGraph workflow..."):
-        report = run_analysis(ticker)
+        report = run_analysis(user_input)
+
+    intent = report.get("intent", {})
+    with st.sidebar:
+        st.subheader("Parsed Intent")
+        st.write(f"Action: `{intent.get('primary_action', 'n/a')}`")
+        st.write(f"Tickers: `{', '.join(intent.get('tickers', [])) or 'n/a'}`")
+        st.write(f"Time Horizon: `{intent.get('time_horizon', 'n/a')}`")
+        st.write(f"Focus Areas: `{', '.join(intent.get('focus_areas', [])) or 'n/a'}`")
+        st.write(f"Confidence: `{float(intent.get('confidence', 0.0)):.2f}`")
 
     factor = report.get("factor_score", {})
     breakdown = factor.get("breakdown", {})

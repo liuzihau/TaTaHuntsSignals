@@ -35,10 +35,27 @@ class EvidenceSnippet:
 
 
 @dataclass
+class Intent:
+    """Parsed user intent for deciding workflow actions."""
+
+    primary_action: str = "analyze"  # "analyze" | "compare" | "screen" | "backtest"
+    tickers: list[str] = field(default_factory=list)
+    focus_areas: list[str] = field(default_factory=lambda: ["fundamentals", "technicals", "sentiment"])
+    time_horizon: str = "medium"  # "short_term" | "medium" | "long_term"
+    constraints: dict[str, Any] = field(default_factory=dict)
+    confidence: float = 0.7  # 0.0-1.0
+
+
+@dataclass
 class AnalysisState:
     """Shared graph state used by all nodes."""
 
-    input_ticker: str
+    input_ticker: str = ""
+    user_command: str = ""
+    intent: Intent = field(default_factory=Intent)
+    tools_to_run: list[str] = field(default_factory=list)
+    tool_results: dict[str, Any] = field(default_factory=dict)
+
     normalized_ticker: str = ""
     asset_type: str = "unknown"
     started_at: str = field(
