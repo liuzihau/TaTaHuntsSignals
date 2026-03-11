@@ -2,3 +2,25 @@ streamlit>=1.32.0
 langgraph>=0.2.0
 python-dotenv>=1.0.1
 anthropic>=0.25.0
+
+# RAG crawl + storage (Phase 1-2)
+feedparser>=6.0.10
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+psycopg2-binary>=2.9.9
+
+# Vectorization + FinBERT Encoding (Phase 4-5)
+transformers>=4.30.0
+torch>=2.0.0
+tqdm>=4.65.0
+
+# Optional: Milvus (may not be needed, kept for reference)
+pymilvus>=2.4.0
+sentence-transformers>=2.2.0
+
+# Scheduling
+APScheduler>=3.10.0
+
+# Testing
+pytest>=7.4.0
